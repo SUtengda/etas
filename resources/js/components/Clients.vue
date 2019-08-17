@@ -195,6 +195,9 @@
                 return store.partner===""?'':store.partner.PAR_partner;
             }
         },
+        mounted(){
+            if(store.partnerID !== '')  this.getClients(store.partnerID);
+        },
         watch:{
             par_id(newID){
                 this.getClients(newID);

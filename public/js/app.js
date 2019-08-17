@@ -3536,6 +3536,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partner === "" ? '' : _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partner.PAR_partner;
     }
   },
+  mounted: function mounted() {
+    if (_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID !== '') this.getClients(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID);
+  },
   watch: {
     par_id: function par_id(newID) {
       this.getClients(newID);
@@ -3894,10 +3897,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].monthSelected;
     }
   },
-  // mounted(){
-  //     const today = new Date();
-  //     this.monthSelected =`${today.getFullYear()}-${today.getMonth()+1}-01`
-  // },
+  mounted: function mounted() {
+    if (_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID !== '' && _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].monthSelected !== '') {
+      this.getVats(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID, _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].monthSelected);
+      this.monthSelected = _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].monthSelected;
+    }
+  },
   watch: {
     par_id: function par_id(newID) {
       if (this.monthSelected === '') return;

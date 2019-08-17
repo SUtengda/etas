@@ -141,10 +141,12 @@
                 return store.monthSelected
             }
         },
-        // mounted(){
-        //     const today = new Date();
-        //     this.monthSelected =`${today.getFullYear()}-${today.getMonth()+1}-01`
-        // },
+        mounted(){
+          if(store.partnerID !== '' && store.monthSelected !==''){
+              this.getVats(store.partnerID,store.monthSelected);
+              this.monthSelected = store.monthSelected;
+          }
+        },
         watch:{
             par_id(newID){
                 if(this.monthSelected==='') return;
