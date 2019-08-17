@@ -11,4 +11,8 @@ class Client extends Model
     public $timestamps = false;
 
     protected $guarded=[];
+
+    public function vats(){
+        return $this->hasMany('App\Models\Vats','CLI_UID');
+    }
 }

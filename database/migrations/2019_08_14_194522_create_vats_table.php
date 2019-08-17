@@ -17,15 +17,15 @@ class CreateVatsTable extends Migration
             $table->bigIncrements('VAT_UID');
             $table->unsignedBigInteger('PAR_UID');
             $table->unsignedBigInteger('CLI_UID');
-            $table->dateTime('VAT_月份');
-            $table->decimal('VAT_月销计算数据',13,2);
-            $table->decimal('VAT_月销审核数据',13,2);
-            $table->decimal('VAT_VAT计算数据',13,2);
-            $table->decimal('VAT_VAT审核数据',13,2);
-            $table->decimal('VAT_VAT实收金额',13,2);
-            $table->dateTime('VAT_VAT到帐日期');
-            $table->dateTime('VAT_税务网上申报日');
-            $table->dateTime('VAT_税务网上付款日');
+            $table->dateTime('VAT_月份')->nullable();
+            $table->decimal('VAT_月销计算数据',13,2)->nullable();
+            $table->decimal('VAT_月销审核数据',13,2)->nullable();
+            $table->decimal('VAT_VAT计算数据',13,2)->nullable();
+            $table->decimal('VAT_VAT审核数据',13,2)->nullable();
+            $table->decimal('VAT_VAT实收金额',13,2)->nullable();
+            $table->dateTime('VAT_VAT到帐日期')->nullable();
+            $table->dateTime('VAT_税务网上申报日')->nullable();
+            $table->dateTime('VAT_税务网上付款日')->nullable();
 
             $table->foreign('PAR_UID')->references('PAR_UID')->on('partners')
                 ->onDelete('no action')->onUpdate('no action');

@@ -3593,7 +3593,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       })["catch"](function () {
         _this4.message('info', '已取消删除');
       });
-      console.table(index, row);
     },
     showDialog: function showDialog() {
       this.$refs.clientDialog.dialogFormShow = true;
@@ -3738,6 +3737,22 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/js/store */ "./resources/js/store.js");
+/* harmony import */ var _js_components_infomation_VatDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/js/components/infomation/VatDialog */ "./resources/js/components/infomation/VatDialog.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -3811,15 +3826,162 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "VAT",
+  components: {
+    VatDialog: _js_components_infomation_VatDialog__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
-      vat_data: [{
-        CLI_UID: 1,
-        CLI_爱达内部编号: "EFB001"
-      }]
+      vats_data: [],
+      //"2019-02-01"
+      monthSelected: '',
+      vats: '',
+      clientId: ''
     };
+  },
+  computed: {
+    par_id: function par_id() {
+      return _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID;
+    },
+    month: function month() {
+      return _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].monthSelected;
+    }
+  },
+  // mounted(){
+  //     const today = new Date();
+  //     this.monthSelected =`${today.getFullYear()}-${today.getMonth()+1}-01`
+  // },
+  watch: {
+    par_id: function par_id(newID) {
+      if (this.monthSelected === '') return;
+      this.getVats(newID, this.monthSelected);
+    },
+    monthSelected: function monthSelected(newDate) {
+      _js_store__WEBPACK_IMPORTED_MODULE_0__["mutations"].setMonthSelected(newDate);
+      if (this.par_id === '') return;
+      this.getVats(this.par_id, newDate);
+    }
+  },
+  methods: {
+    getVats: function getVats(par_id, month) {
+      var _this = this;
+
+      axios.get("".concat(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].APIVersion, "/vats?PAR_UID=").concat(par_id, "&month=").concat(month)).then(function (_ref) {
+        var data = _ref.data;
+        _this.vats_data = [];
+        _this.vats_data = _toConsumableArray(data);
+      });
+    },
+    postOrUpdateVat: function postOrUpdateVat(vat) {
+      var _this2 = this;
+
+      axios.post(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].APIVersion + '/vats', vat).then(function (response) {
+        _this2.getVats(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID, _this2.monthSelected);
+
+        _this2.message('success', '添加或修改成功!');
+      })["catch"](function (error) {
+        console.log(error);
+
+        _this2.$message.error('出错了。。。');
+      });
+    },
+    deleteVat: function deleteVat(id) {
+      var _this3 = this;
+
+      axios["delete"](_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].APIVersion + '/vat/' + id).then(function (res) {
+        _this3.getVats(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID, _this3.monthSelected);
+
+        _this3.message('success', '删除成功!');
+      });
+    },
+    handleEdit: function handleEdit(index, row) {
+      this.$refs.vatDialog.dialogFormShow = true;
+      this.vats = _objectSpread({}, row.vats[0]);
+      this.clientId = row.CLI_UID;
+      console.log({
+        index: index,
+        row: row
+      });
+    },
+    handleDelete: function handleDelete(index, row) {
+      var _this4 = this;
+
+      this.$confirm('确认删除该客户?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(function () {
+        _this4.deleteVat(row.vats[0].VAT_UID);
+      })["catch"](function () {
+        _this4.message('info', '已取消删除');
+      });
+      console.log({
+        index: index,
+        row: row
+      });
+    },
+    pipeDate: function pipeDate(row, column, cellValue, index) {
+      if (!cellValue) {
+        return '';
+      }
+
+      var date = new Date(cellValue);
+      return "".concat(date.getFullYear(), "-").concat(date.getMonth() + 1, "-").concat(date.getDate());
+    },
+    message: function message(type, _message) {
+      this.$message({
+        type: type,
+        message: _message
+      });
+    }
   }
 });
 
@@ -4110,6 +4272,153 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
         // handle error
         console.log(error);
       });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _js_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/js/store */ "./resources/js/store.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "VatDialog",
+  props: ['month', 'vats', 'clientId'],
+  data: function data() {
+    return {
+      dialogFormShow: false,
+      formLabelWidth: '150px',
+      labelPosition: 'left',
+      formVats: {
+        VAT_UID: '',
+        PAR_UID: '',
+        CLI_UID: '',
+        VAT_月份: '',
+        VAT_月销计算数据: '',
+        VAT_月销审核数据: '',
+        VAT_VAT计算数据: '',
+        VAT_VAT审核数据: '',
+        VAT_VAT实收金额: '',
+        VAT_VAT到帐日期: '',
+        VAT_税务网上申报日: '',
+        VAT_税务网上付款日: ''
+      }
+    };
+  },
+  watch: {
+    vats: function vats(newVats) {
+      if (newVats.hasOwnProperty('VAT_UID')) {
+        this.formVats = _objectSpread({}, newVats);
+      } else {
+        this.formVats.PAR_UID = _js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID;
+        this.formVats.CLI_UID = this.clientId;
+        this.formVats.VAT_月份 = this.month;
+      }
+    }
+  },
+  methods: {
+    dialogFormClose: function dialogFormClose() {
+      this.dialogFormShow = false;
+    },
+    submitForm: function submitForm(formName) {
+      this.$emit('dialogFormSubmit', this.formVats);
+      this.dialogFormClose();
     }
   }
 });
@@ -100069,113 +100378,205 @@ var render = function() {
     { staticClass: "mb-3" },
     [
       _c(
-        "el-table",
-        { staticStyle: { width: "100%" }, attrs: { data: _vm.vat_data } },
+        "div",
+        { staticClass: "mb-2" },
         [
-          _c("el-table-column", { attrs: { prop: "CLI_UID" } }),
+          _c("span", { staticClass: "demonstration" }, [_vm._v("选择月份")]),
           _vm._v(" "),
-          _c("el-table-column", {
+          _c("el-date-picker", {
             attrs: {
-              label: "爱达内部编号",
-              prop: "CLI_爱达内部编号",
-              width: "120"
+              type: "month",
+              "value-format": "yyyy-MM-dd",
+              placeholder: "选择月"
+            },
+            model: {
+              value: _vm.monthSelected,
+              callback: function($$v) {
+                _vm.monthSelected = $$v
+              },
+              expression: "monthSelected"
             }
-          }),
-          _vm._v(" "),
-          _vm._l(3, function(o) {
-            return _c(
-              "div",
-              [
-                _c(
-                  "el-table-column",
-                  { attrs: { label: "月份" + o, "header-align": "center" } },
-                  [
-                    _c(
-                      "el-table-column",
-                      {
-                        attrs: {
-                          label: "亚马逊月销售收入",
-                          "header-align": "center"
-                        }
-                      },
-                      [
-                        _c("el-table-column", {
-                          attrs: { label: "电商计算数据", width: "120" }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: { label: "审核数据", width: "120" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-table-column",
-                      {
-                        attrs: {
-                          label: "亚马逊月VAT金额",
-                          "header-align": "center"
-                        }
-                      },
-                      [
-                        _c("el-table-column", {
-                          attrs: { label: "电商计算数据", width: "120" }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: { label: "审核数据", width: "120" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-table-column",
-                      {
-                        attrs: {
-                          label: "收到VAT税金",
-                          "header-align": "center"
-                        }
-                      },
-                      [
-                        _c("el-table-column", {
-                          attrs: { label: "实收金额", width: "120" }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: { label: "到帐日期", width: "120" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "el-table-column",
-                      {
-                        attrs: { label: "税务申报", "header-align": "center" }
-                      },
-                      [
-                        _c("el-table-column", {
-                          attrs: { label: "网上申报日", width: "120" }
-                        }),
-                        _vm._v(" "),
-                        _c("el-table-column", {
-                          attrs: { label: "网上付款日", width: "120" }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            )
           })
         ],
-        2
-      )
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "el-table",
+        { staticStyle: { width: "100%" }, attrs: { data: _vm.vats_data } },
+        [
+          _c("el-table-column", {
+            attrs: { label: "ID", prop: "CLI_UID", width: "120" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { label: "名称", prop: "CLI_名称", width: "120" }
+          }),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { label: "爱达内部编号", prop: "CLI_内部编号", width: "120" }
+          }),
+          _vm._v(" "),
+          _c(
+            "el-table-column",
+            { attrs: { label: _vm.month, "header-align": "center" } },
+            [
+              _c(
+                "el-table-column",
+                {
+                  attrs: { label: "亚马逊月销售收入", "header-align": "center" }
+                },
+                [
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "电商计算数据",
+                      prop: "vats[0].VAT_月销计算数据",
+                      width: "120"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "审核数据",
+                      prop: "vats[0].VAT_月销审核数据",
+                      width: "120"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-table-column",
+                {
+                  attrs: { label: "亚马逊月VAT金额", "header-align": "center" }
+                },
+                [
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "电商计算数据",
+                      prop: "vats[0].VAT_VAT计算数据",
+                      width: "120"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "审核数据",
+                      prop: "vats[0].VAT_VAT审核数据",
+                      width: "120"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-table-column",
+                { attrs: { label: "收到VAT税金", "header-align": "center" } },
+                [
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "实收金额",
+                      prop: "vats[0].VAT_VAT实收金额",
+                      width: "120"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "到帐日期",
+                      formatter: _vm.pipeDate,
+                      prop: "vats[0].VAT_VAT到帐日期",
+                      width: "120"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-table-column",
+                { attrs: { label: "税务申报", "header-align": "center" } },
+                [
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "网上申报日",
+                      formatter: _vm.pipeDate,
+                      prop: "vats[0].VAT_税务网上申报日",
+                      width: "120"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("el-table-column", {
+                    attrs: {
+                      label: "网上付款日",
+                      formatter: _vm.pipeDate,
+                      prop: "vats[0].VAT_税务网上付款日",
+                      width: "120"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("el-table-column", {
+            attrs: { label: "操作", align: "center", width: "150" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(scope) {
+                  return [
+                    _c(
+                      "el-button",
+                      {
+                        attrs: { size: "mini" },
+                        on: {
+                          click: function($event) {
+                            return _vm.handleEdit(scope.$index, scope.row)
+                          }
+                        }
+                      },
+                      [_vm._v("编辑")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "el-button",
+                      {
+                        attrs: {
+                          size: "mini",
+                          type: "danger",
+                          disabled: scope.row.vats.length === 0
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.handleDelete(scope.$index, scope.row)
+                          }
+                        }
+                      },
+                      [_vm._v("删除")]
+                    )
+                  ]
+                }
+              }
+            ])
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("VatDialog", {
+        ref: "vatDialog",
+        attrs: {
+          month: _vm.monthSelected,
+          vats: _vm.vats,
+          clientId: _vm.clientId
+        },
+        on: { dialogFormSubmit: _vm.postOrUpdateVat }
+      })
     ],
     1
   )
@@ -100746,6 +101147,254 @@ var render = function() {
             attrs: { label: item.label, value: item.value }
           })
         }),
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "el-dialog",
+        {
+          attrs: {
+            title: "添加或修改该客户" + _vm.month + "月记录",
+            visible: _vm.dialogFormShow,
+            "close-on-press-escape": false,
+            "close-on-click-modal": false
+          },
+          on: {
+            "update:visible": function($event) {
+              _vm.dialogFormShow = $event
+            }
+          }
+        },
+        [
+          _c(
+            "el-form",
+            {
+              ref: "formPartner",
+              attrs: {
+                "label-position": _vm.labelPosition,
+                "label-width": _vm.formLabelWidth,
+                model: _vm.formVats
+              }
+            },
+            [
+              _c(
+                "el-form-item",
+                { attrs: { label: "月销计算数据" } },
+                [
+                  _c("el-input-number", {
+                    attrs: { precision: 2, controls: false },
+                    model: {
+                      value: _vm.formVats.VAT_月销计算数据,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_月销计算数据", $$v)
+                      },
+                      expression: "formVats.VAT_月销计算数据"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "月销审核数据" } },
+                [
+                  _c("el-input-number", {
+                    attrs: { precision: 2, controls: false },
+                    model: {
+                      value: _vm.formVats.VAT_月销审核数据,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_月销审核数据", $$v)
+                      },
+                      expression: "formVats.VAT_月销审核数据"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "VAT计算数据" } },
+                [
+                  _c("el-input-number", {
+                    attrs: { precision: 2, controls: false },
+                    model: {
+                      value: _vm.formVats.VAT_VAT计算数据,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_VAT计算数据", $$v)
+                      },
+                      expression: "formVats.VAT_VAT计算数据"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "VAT审核数据" } },
+                [
+                  _c("el-input-number", {
+                    attrs: { precision: 2, controls: false },
+                    model: {
+                      value: _vm.formVats.VAT_VAT审核数据,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_VAT审核数据", $$v)
+                      },
+                      expression: "formVats.VAT_VAT审核数据"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "VAT实收金额" } },
+                [
+                  _c("el-input-number", {
+                    attrs: { precision: 2, controls: false },
+                    model: {
+                      value: _vm.formVats.VAT_VAT实收金额,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_VAT实收金额", $$v)
+                      },
+                      expression: "formVats.VAT_VAT实收金额"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "VAT到帐日期" } },
+                [
+                  _c("el-date-picker", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      type: "date",
+                      placeholder: "选择日期",
+                      "value-format": "yyyy-MM-dd"
+                    },
+                    model: {
+                      value: _vm.formVats.VAT_VAT到帐日期,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_VAT到帐日期", $$v)
+                      },
+                      expression: "formVats.VAT_VAT到帐日期"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "税务网上申报日" } },
+                [
+                  _c("el-date-picker", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      type: "date",
+                      placeholder: "选择日期",
+                      "value-format": "yyyy-MM-dd"
+                    },
+                    model: {
+                      value: _vm.formVats.VAT_税务网上申报日,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_税务网上申报日", $$v)
+                      },
+                      expression: "formVats.VAT_税务网上申报日"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "el-form-item",
+                { attrs: { label: "税务网上付款日" } },
+                [
+                  _c("el-date-picker", {
+                    staticStyle: { width: "100%" },
+                    attrs: {
+                      type: "date",
+                      placeholder: "选择日期",
+                      "value-format": "yyyy-MM-dd"
+                    },
+                    model: {
+                      value: _vm.formVats.VAT_税务网上付款日,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formVats, "VAT_税务网上付款日", $$v)
+                      },
+                      expression: "formVats.VAT_税务网上付款日"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "dialog-footer",
+              attrs: { slot: "footer" },
+              slot: "footer"
+            },
+            [
+              _c("el-button", { on: { click: _vm.dialogFormClose } }, [
+                _vm._v("取 消")
+              ]),
+              _vm._v(" "),
+              _c(
+                "el-button",
+                {
+                  attrs: { type: "primary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.submitForm("formVats")
+                    }
+                  }
+                },
+                [_vm._v("确 定")]
+              )
+            ],
+            1
+          )
+        ],
         1
       )
     ],
@@ -116755,6 +117404,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/infomation/VatDialog.vue":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/infomation/VatDialog.vue ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true& */ "./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true&");
+/* harmony import */ var _VatDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VatDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _VatDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "f7bfdefa",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/infomation/VatDialog.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VatDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./VatDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/infomation/VatDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_VatDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/infomation/VatDialog.vue?vue&type=template&id=f7bfdefa&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VatDialog_vue_vue_type_template_id_f7bfdefa_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/setting/partSubcomponents/PartDialog.vue":
 /*!**************************************************************************!*\
   !*** ./resources/js/components/setting/partSubcomponents/PartDialog.vue ***!
@@ -117059,11 +117777,12 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  routes: [{
-    path: '/',
-    name: 'home',
-    component: _js_components_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }, {
+  routes: [// {
+  //     path: '/',
+  //     name:'home',
+  //     component:Home
+  // },
+  {
     path: '/information',
     name: 'information',
     component: _js_pages_Information__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -117113,7 +117832,9 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 var store = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   APIVersion: '/api/v1',
   partnerID: '',
-  partner: ''
+  partner: '',
+  //vat component
+  monthSelected: ''
 });
 var mutations = {
   setPartnerID: function setPartnerID(id) {
@@ -117128,6 +117849,9 @@ var mutations = {
       // handle error
       console.log(error);
     });
+  },
+  setMonthSelected: function setMonthSelected(monthDate) {
+    store.monthSelected = monthDate;
   }
 };
 var actions = {};

@@ -5,6 +5,9 @@ export const store = Vue.observable({
     APIVersion : '/api/v1',
     partnerID: '',
     partner : '',
+
+    //vat component
+    monthSelected:'',
 });
 
 export const mutations = {
@@ -22,6 +25,10 @@ export const mutations = {
                 console.log(error);
             })
     },
+
+    setMonthSelected(monthDate) {
+        store.monthSelected = monthDate;
+    }
 };
 
 export const actions = {

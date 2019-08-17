@@ -30,4 +30,7 @@ Route::group(['prefix' => 'v1'], function(){
     Route::post('/clients', 'API\ClientController@postNewClient');
     Route::delete('/client/{cli_id}', 'API\ClientController@deleteClient');
 
+    Route::get('/vats','API\VATController@getVATs');
+    Route::post('/vats', 'API\VATController@updateVats');
+    Route::delete('/vat/{vat_id}', 'API\VATController@deleteVat');
 });

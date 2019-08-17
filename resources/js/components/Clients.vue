@@ -245,8 +245,6 @@
                 }).catch(() => {
                     this.message('info','已取消删除')
                 });
-
-                console.table(index, row);
             },
             showDialog(){
                 this.$refs.clientDialog.dialogFormShow=true;
