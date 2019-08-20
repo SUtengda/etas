@@ -2,6 +2,9 @@ import Vue from "vue";
 const axios = require('axios');
 
 export const store = Vue.observable({
+    //state ig logged
+    logged : false,
+
     APIVersion : '/api/v1',
     partnerID: '',
     partner : '',
@@ -31,8 +34,10 @@ export const mutations = {
     }
 };
 
-export const actions = {
-
+export const getters = {
+    isLoggedIn() {
+        return store.load;
+    }
 };
  export const Client = {
     CLI_EROI申请日: '',

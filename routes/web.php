@@ -11,4 +11,13 @@
 |
 */
 
-Route::get('/{any}', 'Web\AppController@index')->where('any', '.*');
+Route::get('/', 'Web\AppController@index');
+
+//Auth::routes();
+
+//
+//Route::get('/login', 'Web\AppController@getLogin' )
+//    ->name('login')
+//    ->middleware('guest');
+
+//Route::post('/login','Web\AppController@postLogin');
