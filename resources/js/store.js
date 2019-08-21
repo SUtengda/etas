@@ -3,7 +3,7 @@ const axios = require('axios');
 
 export const store = Vue.observable({
     //state ig logged
-    logged : false,
+    logged : true,
 
     APIVersion : '/api/v1',
     partnerID: '',
@@ -36,7 +36,7 @@ export const mutations = {
 
 export const getters = {
     isLoggedIn() {
-        return store.load;
+        return store.logged;
     }
 };
  export const Client = {

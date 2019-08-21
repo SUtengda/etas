@@ -30,32 +30,42 @@ const router = new VueRouter({
            },
            children: [
                {
-                   path: '/client',
+                   path: '/dashboard/client',
                    name: 'clients',
-                   component: Clients
+                   component: Clients,
+                   meta: {
+                       auth: true // A protected route
+                   },
                },
                {
-                   path: '/vat',
+                   path: '/dashboard/vat',
                    name: 'vat',
-                   component: VAT
+                   component: VAT,
+                   meta: {
+                       auth: true // A protected route
+                   },
                },
-           ]
-       },
-       {
-           path: '/setting',
-           name: 'setting',
-           component: Setting,
-           meta: {
-               auth: true // A protected route
-           },
-           children : [
                {
-                   path:'setPartner',
-                   name: 'setPartner',
-                   component: SetPartner
+                   path: '/dashboard/setting',
+                   name: 'setting',
+                   component: Setting,
+                   meta: {
+                       auth: true // A protected route
+                   },
+                   children : [
+                       {
+                           path:'/dashboard/setting/setPartner',
+                           name: 'setPartner',
+                           component: SetPartner,
+                           meta: {
+                               auth: true // A protected route
+                           },
+                       }
+                   ]
                }
            ]
-       }
+       },
+
    ]
 });
 
@@ -64,10 +74,12 @@ router.beforeEach((to, from, next) => {
     if (to.meta.auth && !getters.isLoggedIn()) {
         next('/login')
     }
-    else {
+    if(to.name==="login" && getters.isLoggedIn()){
+        next('/dashboard')
+    }else{
         next()
     }
 
-})
+});
 
 export default router;

@@ -4861,6 +4861,11 @@ __webpack_require__.r(__webpack_exports__);
       visible: false
     };
   },
+  computed: {
+    isSettingRoute: function isSettingRoute() {
+      return this.$route.fullPath.includes('setting');
+    }
+  },
   methods: {
     handleOpen: function handleOpen(key, keyPath) {
       console.log(key, keyPath);
@@ -5010,6 +5015,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/js/store */ "./resources/js/store.js");
 /* harmony import */ var _js_layouts_Dashboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/js/layouts/Dashboard */ "./resources/js/layouts/Dashboard.vue");
 /* harmony import */ var _js_layouts_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/js/layouts/Login */ "./resources/js/layouts/Login.vue");
+//
 //
 //
 //
@@ -102027,7 +102033,9 @@ var render = function() {
               _c(
                 "el-main",
                 [
-                  _c("div", { staticClass: "mb-3" }, [_c("Partner")], 1),
+                  !_vm.isSettingRoute
+                    ? _c("div", { staticClass: "mb-3" }, [_c("Partner")], 1)
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("router-view")
                 ],
@@ -102218,7 +102226,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm.logged ? [_c("Dashboard")] : [_c("Login")]], 2)
+  return _c("div", [_c("router-view")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -118314,32 +118322,48 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 
     },
     children: [{
-      path: '/client',
+      path: '/dashboard/client',
       name: 'clients',
-      component: _js_components_Clients__WEBPACK_IMPORTED_MODULE_7__["default"]
-    }, {
-      path: '/vat',
-      name: 'vat',
-      component: _js_components_VAT__WEBPACK_IMPORTED_MODULE_8__["default"]
-    }]
-  }, {
-    path: '/setting',
-    name: 'setting',
-    component: _js_pages_Setting__WEBPACK_IMPORTED_MODULE_9__["default"],
-    meta: {
-      auth: true // A protected route
+      component: _js_components_Clients__WEBPACK_IMPORTED_MODULE_7__["default"],
+      meta: {
+        auth: true // A protected route
 
-    },
-    children: [{
-      path: 'setPartner',
-      name: 'setPartner',
-      component: _js_components_setting_setPartner__WEBPACK_IMPORTED_MODULE_10__["default"]
+      }
+    }, {
+      path: '/dashboard/vat',
+      name: 'vat',
+      component: _js_components_VAT__WEBPACK_IMPORTED_MODULE_8__["default"],
+      meta: {
+        auth: true // A protected route
+
+      }
+    }, {
+      path: '/dashboard/setting',
+      name: 'setting',
+      component: _js_pages_Setting__WEBPACK_IMPORTED_MODULE_9__["default"],
+      meta: {
+        auth: true // A protected route
+
+      },
+      children: [{
+        path: '/dashboard/setting/setPartner',
+        name: 'setPartner',
+        component: _js_components_setting_setPartner__WEBPACK_IMPORTED_MODULE_10__["default"],
+        meta: {
+          auth: true // A protected route
+
+        }
+      }]
     }]
   }]
 });
 router.beforeEach(function (to, from, next) {
   if (to.meta.auth && !_js_store__WEBPACK_IMPORTED_MODULE_2__["getters"].isLoggedIn()) {
     next('/login');
+  }
+
+  if (to.name === "login" && _js_store__WEBPACK_IMPORTED_MODULE_2__["getters"].isLoggedIn()) {
+    next('/dashboard');
   } else {
     next();
   }
@@ -118369,7 +118393,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 var store = vue__WEBPACK_IMPORTED_MODULE_0___default.a.observable({
   //state ig logged
-  logged: false,
+  logged: true,
   APIVersion: '/api/v1',
   partnerID: '',
   partner: '',
@@ -118396,7 +118420,7 @@ var mutations = {
 };
 var getters = {
   isLoggedIn: function isLoggedIn() {
-    return store.load;
+    return store.logged;
   }
 };
 var Client = {

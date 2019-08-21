@@ -1,11 +1,12 @@
 <template>
     <div>
-        <template v-if="logged">
-            <Dashboard></Dashboard>
-        </template>
-        <template v-else>
-            <Login></Login>
-        </template>
+        <router-view></router-view>
+<!--        <template v-if="logged">-->
+<!--            <Dashboard></Dashboard>-->
+<!--        </template>-->
+<!--        <template v-else>-->
+<!--            <Login></Login>-->
+<!--        </template>-->
     </div>
 
 </template>

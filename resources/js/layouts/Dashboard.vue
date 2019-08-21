@@ -44,7 +44,7 @@
                 </el-aside>
 
                 <el-main>
-                    <div class="mb-3">
+                    <div class="mb-3" v-if="!isSettingRoute">
                         <Partner></Partner>
                     </div>
                     <router-view></router-view>
@@ -66,6 +66,11 @@
         data() {
             return {
                 visible: false
+            }
+        },
+        computed:{
+            isSettingRoute(){
+                return this.$route.fullPath.includes('setting')
             }
         },
         methods: {
