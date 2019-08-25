@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
 Route::group(['prefix' => 'v1'], function(){
-    Route::get('/partners','API\PartnerController@getPartners');
+    Route::get('/partners','API\PartnerController@getPartners')->middleware('auth:api');
     Route::get('/partner/{id}','API\PartnerController@getPartner');
     Route::delete('/partner/{id}','API\PartnerController@deletePartner');
     Route::post('/partners', 'API\PartnerController@postNewPartner');

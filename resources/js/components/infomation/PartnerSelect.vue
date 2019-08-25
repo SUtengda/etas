@@ -35,7 +35,7 @@
         },
         methods: {
             getPartners(){
-                axios.get(store.APIVersion+'/partners/')
+                axios.get(store.APIVersion+'/partners/?api_token='+etasUser.api_token)
                     .then(({data})=> {
                         this.options=data.map(item =>{
                             return {value : item.PAR_UID, label:item.PAR_partner}

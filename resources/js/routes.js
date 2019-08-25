@@ -1,11 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import { store, mutations, getters} from "@/js/store";
-import Home from '@/js/components/Home';
 import Login from '@/js/layouts/Login'
 import Dashboard from '@/js/layouts/Dashboard'
-import Information from '@/js/pages/Information';
 import Clients from '@/js/components/Clients';
 import VAT from '@/js/components/VAT';
 import Setting from '@/js/pages/Setting';
@@ -20,6 +17,11 @@ const router = new VueRouter({
            path: '/login',
            name:'login',
            component: Login
+       },
+       {
+           path: '/',
+           name:'home',
+           component: Dashboard
        },
        {
            path: '/dashboard',
@@ -69,17 +71,17 @@ const router = new VueRouter({
    ]
 });
 
-router.beforeEach((to, from, next) => {
-
-    if (to.meta.auth && !getters.isLoggedIn()) {
-        next('/login')
-    }
-    if(to.name==="login" && getters.isLoggedIn()){
-        next('/dashboard')
-    }else{
-        next()
-    }
-
-});
+// router.beforeEach((to, from, next) => {
+//
+//     if (to.meta.auth && !getters.isLoggedIn()) {
+//         next('/login')
+//     }
+//     if(to.name==="login" && getters.isLoggedIn()){
+//         next('/dashboard')
+//     }else{
+//         next()
+//     }
+//
+// });
 
 export default router;

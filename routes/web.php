@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'Web\AppController@index');
+Route::get('/', 'Web\AppController@index')->middleware('auth');
 
 //Auth::routes();
 
@@ -19,5 +19,6 @@ Route::get('/', 'Web\AppController@index');
 //Route::get('/login', 'Web\AppController@getLogin' )
 //    ->name('login')
 //    ->middleware('guest');
-
-//Route::post('/login','Web\AppController@postLogin');
+Route::get('/login','Web\AuthticationController@getLogin')->name('login');;
+Route::post('/login','Web\AuthticationController@login');
+Route::get('/logout','Web\AuthticationController@logout');

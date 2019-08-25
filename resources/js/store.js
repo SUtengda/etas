@@ -1,9 +1,10 @@
 import Vue from "vue";
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 const axios = require('axios');
+Vue.use(ElementUI);
 
 export const store = Vue.observable({
-    //state ig logged
-    logged : true,
 
     APIVersion : '/api/v1',
     partnerID: '',
@@ -28,10 +29,9 @@ export const mutations = {
                 console.log(error);
             })
     },
-
     setMonthSelected(monthDate) {
         store.monthSelected = monthDate;
-    }
+    },
 };
 
 export const getters = {

@@ -24,7 +24,6 @@
                     username: '',
                     password: ''
                 },
-
                 // 表单验证，需要在 el-form-item 元素中增加 prop 属性
                 rules: {
                     username: [
@@ -34,7 +33,6 @@
                         {required: true, message: '密码不可为空', trigger: 'blur'}
                     ]
                 },
-
                 // 对话框显示和隐藏
                 dialogVisible: false
             }
@@ -44,15 +42,30 @@
                 // 为表单绑定验证功能
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
-                        // this.$router.push("/main");
+                        this.login(this.form.username,this.form.password)
                     } else {
-                        this.dialogVisible = true;
                         return false;
                     }
                 });
+            },
+            login(user,pass){
+                axios.post('login',{email:user,password:pass})
+                    .then( (response) =>{
+                        // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
+                        // this.$router.push("/main");
+                        this.$router.push('dashboard');
+                        this.$message({
+                            type: 'success',
+                            message: '登陆成功'
+                        });
+                    })
+                    .catch( (error)=> {
+                        this.$message({
+                            type: 'error',
+                            message: '登陆失败，账号密码不匹配'
+                        });
+                    });
             }
-
         }
     }
 </script>

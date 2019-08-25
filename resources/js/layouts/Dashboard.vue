@@ -8,7 +8,7 @@
                         <div class="title">ETAS 税代 管理程序</div>
                     </el-col>
                     <el-col :span="2">
-                        <el-link :underline="false">退出登录</el-link>
+                        <el-link :underline="false" @click="logout">退出登录</el-link>
                     </el-col>
                 </el-row>
 
@@ -37,7 +37,13 @@
                                 <span>设置</span>
                             </template>
                             <el-menu-item index="setPartner">
-                                合作方
+                                管理合作方
+                            </el-menu-item>
+                            <el-menu-item index="setUsers">
+                                管理用户
+                            </el-menu-item>
+                            <el-menu-item index="setPassword">
+                                修改账户密码
                             </el-menu-item>
                         </el-submenu>
                     </el-menu>
@@ -74,6 +80,15 @@
             }
         },
         methods: {
+            logout(){
+                axios.get('logout').then((res)=>{
+                    window.location="/login";
+                    this.$message({
+                        type: 'success',
+                        message: '已退出登陆'
+                    });
+                })
+            },
             handleOpen(key, keyPath) {
                 console.log(key, keyPath);
             },

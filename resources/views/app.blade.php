@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
+
+
 <div id="app"></div>
+<script>
+    window.etasUser = <?php echo json_encode($user); ?>;
+    // console.log(window.etasUser.api_token)
+</script>
 <script src="{{asset('js/app.js')}}"></script>
 </body>
 </html>

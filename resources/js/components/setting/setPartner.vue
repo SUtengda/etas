@@ -95,7 +95,7 @@
         },
         methods:{
             getPartners(){
-                axios.get(store.APIVersion+'/partners/')
+                axios.get(store.APIVersion+'/partners/?spi_token')
                     .then(({data})=> {
                         this.part_data=[];
                         this.part_data.push(...data);
