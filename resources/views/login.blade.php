@@ -29,12 +29,10 @@
 <body>
 <div id="login">
     <h3 align="center">欢迎登陆</h3><br />
-    @if (count($errors) > 0)
+    @if (Session::get('error'))
         <div class="alert alert-danger">
             <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <li>{{ Session::get('error') }}</li>
             </ul>
         </div>
     @endif

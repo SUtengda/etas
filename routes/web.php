@@ -22,3 +22,5 @@ Route::get('/', 'Web\AppController@index')->middleware('auth');
 Route::get('/login','Web\AuthticationController@getLogin')->name('login');;
 Route::post('/login','Web\AuthticationController@login');
 Route::get('/logout','Web\AuthticationController@logout');
+
+Route::post('/password/reset', 'Web\AuthticationController@reset');

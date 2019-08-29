@@ -7,6 +7,8 @@ import Clients from '@/js/components/Clients';
 import VAT from '@/js/components/VAT';
 import Setting from '@/js/pages/Setting';
 import SetPartner from '@/js/components/setting/setPartner';
+import ResetPwd from '@/js/components/setting/resetPassword/ResetPassword';
+import SetUsers from '@/js/components/setting/setUsers/SetUsers';
 
 Vue.use(VueRouter);
 
@@ -62,6 +64,16 @@ const router = new VueRouter({
                            meta: {
                                auth: true // A protected route
                            },
+                       },
+                       {
+                           path:'/dashboard/setting/setUsers',
+                           name:'setUsers',
+                           component:SetUsers
+                       },
+                       {
+                           path:'/dashboard/setting/resetPassWord',
+                           name:'resetPassword',
+                           component:ResetPwd
                        }
                    ]
                }

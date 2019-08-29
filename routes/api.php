@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
 Route::group(['prefix' => 'v1'], function(){
+    Route::get('users','API\UserController@getUsers')->middleware('auth:api');
+    Route::post('user','API\UserController@postUser')->middleware('auth:api');
+
     Route::get('/partners','API\PartnerController@getPartners')->middleware('auth:api');
     Route::get('/partner/{id}','API\PartnerController@getPartner');
     Route::delete('/partner/{id}','API\PartnerController@deletePartner');
@@ -34,3 +37,4 @@ Route::group(['prefix' => 'v1'], function(){
     Route::post('/vats', 'API\VATController@updateVats');
     Route::delete('/vat/{vat_id}', 'API\VATController@deleteVat');
 });
+

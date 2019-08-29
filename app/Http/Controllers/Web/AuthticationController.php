@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthticationController extends Controller
 {
@@ -26,10 +28,33 @@ class AuthticationController extends Controller
             return redirect('/');
 
         }else{
-            return response()->json(['error' => 'no user.'],401);
+            return redirect('/login')->with(['error' => '账户密码不匹配']);
         }
 
 
+    }
+    public function reset(ResetPasswordRequest $request){
+        $user = Auth::guard()->user();
+        return response()->json([
+            'user' => $user->password,
+            'reset'=>Hash::make($request->input('currentpwd')),
+            $user->password===Hash::make($request->input('currentpwd'))
+        ]);
+
+        if($user){
+            if($user->password !==  Hash::make($request->input('currentpwd'))){
+                return response()->json(['error' => '旧密码不匹配'],401);
+            }
+            if($user->password ===  Hash::make($request->input('newpwd'))){
+                return response()->json(['error' => '新旧密码一致'],403);
+            }else{
+                $user->password = Hash::make($request->input('newpwd'));
+                $user->save();
+                return response()->json(['success'=>'密码已重置','新密码'=>$user->password], 201);
+            }
+        }else{
+            return response()->json(['error' => '账户有误，请重新登陆后尝试'], 403);
+        }
     }
 
     public function logout(){

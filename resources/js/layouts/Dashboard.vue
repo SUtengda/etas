@@ -2,7 +2,6 @@
     <div>
         <el-container>
             <el-header>
-
                 <el-row>
                     <el-col :span="22">
                         <div class="title">ETAS 税代 管理程序</div>
@@ -11,9 +10,8 @@
                         <el-link :underline="false" @click="logout">退出登录</el-link>
                     </el-col>
                 </el-row>
-
-
             </el-header>
+
             <el-container>
                 <el-aside width="200px">
                     <el-menu
@@ -31,7 +29,6 @@
                             <span slot="title">VAT</span>
                         </el-menu-item>
                         <el-submenu index="setting">
-
                             <template slot="title">
                                 <i class="el-icon-setting"></i>
                                 <span>设置</span>
@@ -42,7 +39,7 @@
                             <el-menu-item index="setUsers">
                                 管理用户
                             </el-menu-item>
-                            <el-menu-item index="setPassword">
+                            <el-menu-item index="resetPassword">
                                 修改账户密码
                             </el-menu-item>
                         </el-submenu>
@@ -55,6 +52,7 @@
                     </div>
                     <router-view></router-view>
                 </el-main>
+
             </el-container>
         </el-container>
     </div>
