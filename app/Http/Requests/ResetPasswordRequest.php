@@ -24,8 +24,7 @@ class ResetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'currentpwd'=>'required',
-            'newpwd'=>'required|different:currentpwd',
+            'newpwd'=>'required',
             'renewpwd'=>'required|same:newpwd',
         ];
     }
@@ -33,10 +32,8 @@ class ResetPasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'currentpwd.required'=>'没有提供当前用户密码',
             'newpwd.required'=>'请输入新密码',
             'renewpwd.required'=>'请二次输入新密码',
-            'renewpwd.different'=>'新密码与旧密码相同',
             'renewpwd.same'=>'两次密码不匹配',
         ];
     }

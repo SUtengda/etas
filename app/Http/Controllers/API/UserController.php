@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -32,17 +32,13 @@ class UserController extends Controller
 
             $this->validate($request, $rules, $messages);
 
-            $name = $request->input('name');
-            $email = $request->input('email');
-            $password =  $request->input('userPsd');
-
             $user = new User();
-            $user->name = $name;
-            $user->email = $email;
-            $user->password = bcrypt($password);
+            $user->name =  $request->input('name');;
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            return response()->json(['user'=>$user,'randomPsw'=>$password], 201);
+            return response()->json(['user'=>$user,'pdw'=>$request->input('password'),'hash'=>$user->password], 201);
         } catch (ValidationException $validationException) {
             $message = $validationException->validator->getMessageBag()->first();
             return $message;

@@ -28,30 +28,18 @@ class AuthticationController extends Controller
             return redirect('/');
 
         }else{
-            return redirect('/login')->with(['error' => '账户密码不匹配']);
+            return redirect('/login')->with(['error' => '账户密码不匹配','pwd'=>bcrypt($request->password)]);
         }
 
 
     }
     public function reset(ResetPasswordRequest $request){
         $user = Auth::guard()->user();
-        return response()->json([
-            'user' => $user->password,
-            'reset'=>Hash::make($request->input('currentpwd')),
-            $user->password===Hash::make($request->input('currentpwd'))
-        ]);
 
         if($user){
-            if($user->password !==  Hash::make($request->input('currentpwd'))){
-                return response()->json(['error' => '旧密码不匹配'],401);
-            }
-            if($user->password ===  Hash::make($request->input('newpwd'))){
-                return response()->json(['error' => '新旧密码一致'],403);
-            }else{
-                $user->password = Hash::make($request->input('newpwd'));
-                $user->save();
-                return response()->json(['success'=>'密码已重置','新密码'=>$user->password], 201);
-            }
+            $user->password = Hash::make($request->input('newpwd'));
+            $user->save();
+            return response()->json(['success'=>'密码已重置'], 201);
         }else{
             return response()->json(['error' => '账户有误，请重新登陆后尝试'], 403);
         }

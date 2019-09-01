@@ -4569,9 +4569,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 // const axios = require('axios');
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ResetPassword",
@@ -4581,8 +4578,6 @@ __webpack_require__.r(__webpack_exports__);
     var validatePass = function validatePass(rule, value, callback) {
       if (value === '') {
         callback(new Error('未输入密码'));
-      } else if (_this.resetPwdForm.newpwd === _this.resetPwdForm.currentpwd) {
-        callback(new Error('新密码与旧密码相同'));
       } else {
         callback();
       }
@@ -4600,16 +4595,10 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       resetPwdForm: {
-        currentpwd: '',
         newpwd: '',
         renewpwd: ''
       },
       resetPwdFormRules: {
-        currentpwd: [{
-          required: true,
-          validator: validatePass,
-          trigger: 'blur'
-        }],
         newpwd: [{
           required: true,
           validator: validatePass,
@@ -4625,16 +4614,26 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     resetPwd: function resetPwd() {
-      axios.post('/password/reset', this.resetPwdForm).then(function (response) {})["catch"](function (error) {
+      var _this2 = this;
+
+      axios.post('/password/reset', this.resetPwdForm).then(function (response) {
+        _this2.$message({
+          type: 'success',
+          message: '密码修改成功'
+        });
+
+        _this2.resetPwdForm.newpwd = '';
+        _this2.resetPwdForm.renewpwd = '';
+      })["catch"](function (error) {
         console.log(error);
       });
     },
     submitForm: function submitForm(formName) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$refs[formName].validate(function (valid) {
         if (valid) {
-          _this2.resetPwd();
+          _this3.resetPwd();
         } else {
           console.log('error submit!!');
           return false;
@@ -102039,24 +102038,6 @@ var render = function() {
           }
         },
         [
-          _c(
-            "el-form-item",
-            { attrs: { label: "当前密码", prop: "currentpwd" } },
-            [
-              _c("el-input", {
-                attrs: { type: "password", "auto-complete": "off" },
-                model: {
-                  value: _vm.resetPwdForm.currentpwd,
-                  callback: function($$v) {
-                    _vm.$set(_vm.resetPwdForm, "currentpwd", $$v)
-                  },
-                  expression: "resetPwdForm.currentpwd"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
           _c(
             "el-form-item",
             { attrs: { label: "新密码", prop: "newpwd" } },

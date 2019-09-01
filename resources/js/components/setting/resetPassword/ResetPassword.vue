@@ -1,9 +1,6 @@
 <template>
     <div class="reset-password">
         <el-form :model="resetPwdForm" status-icon :rules="resetPwdFormRules" ref="resetPwdForm" label-width="100px">
-            <el-form-item label="当前密码" prop="currentpwd">
-                <el-input type="password" v-model="resetPwdForm.currentpwd" auto-complete="off"></el-input>
-            </el-form-item>
             <el-form-item label="新密码" prop="newpwd">
                 <el-input type="password" v-model="resetPwdForm.newpwd" auto-complete="off"></el-input>
             </el-form-item>
@@ -26,9 +23,7 @@
             var validatePass = (rule, value, callback) => {
                 if (value==='') {
                     callback(new Error('未输入密码'));
-                } else if(this.resetPwdForm.newpwd === this.resetPwdForm.currentpwd){
-                    callback(new Error('新密码与旧密码相同'));
-                } else {
+                }  else {
                     callback();
                 }
             };
@@ -43,14 +38,10 @@
             };
             return {
                 resetPwdForm:{
-                    currentpwd:'',
                     newpwd:'',
                     renewpwd:'',
                 },
                 resetPwdFormRules:{
-                    currentpwd:[
-                        { required: true, validator: validatePass, trigger: 'blur' }
-                    ],
                     newpwd: [
                         { required: true, validator: validatePass, trigger: 'blur' }
                     ],
@@ -64,8 +55,12 @@
             resetPwd(){
                 axios.post('/password/reset',this.resetPwdForm)
                   .then( (response) =>{
-
-
+                      this.$message({
+                          type: 'success',
+                          message: '密码修改成功'
+                      });
+                      this.resetPwdForm.newpwd = '';
+                      this.resetPwdForm.renewpwd = '';
                   })
                   .catch( (error)=> {
                       console.log(error);
