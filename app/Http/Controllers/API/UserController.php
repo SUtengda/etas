@@ -38,7 +38,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            return response()->json(['user'=>$user,'pdw'=>$request->input('password'),'hash'=>$user->password], 201);
+            return response()->json(['user'=>$user], 201);
         } catch (ValidationException $validationException) {
             $message = $validationException->validator->getMessageBag()->first();
             return $message;
