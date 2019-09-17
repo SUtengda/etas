@@ -95,7 +95,7 @@
         },
         methods:{
             getPartners(){
-                axios.get(store.APIVersion+'/partners/?spi_token')
+                axios.get(store.APIVersion+'/partners/?api_token'+etasUser.api_token)
                     .then(({data})=> {
                         this.part_data=[];
                         this.part_data.push(...data);
