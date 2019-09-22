@@ -13,7 +13,7 @@ class CreateClientsTable extends Migration
      */
     public function up()
     {
-        Schema::create('client', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->bigIncrements('CLI_UID');
             $table->unsignedBigInteger('PAR_UID');
             $table->string('CLI_内部编号',45)->nullable();
