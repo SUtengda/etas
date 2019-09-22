@@ -4770,7 +4770,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
     getPartners: function getPartners() {
       var _this = this;
 
-      axios.get(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].APIVersion + '/partners/?spi_token').then(function (_ref) {
+      axios.get(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].APIVersion + '/partners/?api_token=' + etasUser.api_token).then(function (_ref) {
         var _this$part_data;
 
         var data = _ref.data;
