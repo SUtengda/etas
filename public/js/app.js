@@ -3567,7 +3567,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         _this2.message('success', '添加或修改成功!');
       })["catch"](function (error) {
-        console.log(error);
+        console.log({
+          error: error,
+          client: client
+        });
 
         _this2.$message.error('出错了。。。');
       });
@@ -101324,11 +101327,11 @@ var render = function() {
                   _c("el-date-picker", {
                     attrs: { "value-format": "yyyy-MM-dd", type: "date" },
                     model: {
-                      value: _vm.formClient.有效材料到达日,
+                      value: _vm.formClient.CLI_有效材料到达日,
                       callback: function($$v) {
-                        _vm.$set(_vm.formClient, "有效材料到达日", $$v)
+                        _vm.$set(_vm.formClient, "CLI_有效材料到达日", $$v)
                       },
-                      expression: "formClient.有效材料到达日"
+                      expression: "formClient.CLI_有效材料到达日"
                     }
                   })
                 ],

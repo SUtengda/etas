@@ -222,7 +222,7 @@
                         this.message('success','添加或修改成功!');
                     })
                     .catch( (error)=> {
-                        console.log(error);
+                        console.log({error,client});
                         this.$message.error('出错了。。。');
                     });
             },

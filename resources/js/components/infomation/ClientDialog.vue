@@ -95,7 +95,7 @@
                 <el-form-item label="有效材效到达日">
                     <el-date-picker
                             value-format="yyyy-MM-dd"
-                            v-model="formClient.有效材料到达日"
+                            v-model="formClient.CLI_有效材料到达日"
                             type="date">
                     </el-date-picker>
                 </el-form-item>
