@@ -63,7 +63,6 @@
                       this.resetPwdForm.renewpwd = '';
                   })
                   .catch( (error)=> {
-                      console.log(error);
                   });
             },
             submitForm(formName) {
@@ -71,7 +70,6 @@
                     if (valid) {
                         this.resetPwd();
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });

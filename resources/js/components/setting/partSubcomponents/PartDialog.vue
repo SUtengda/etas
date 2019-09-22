@@ -90,7 +90,6 @@
                       this.$emit('dialogFormSubmit',this.formPartner);
                       this.dialogFormClose();
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });

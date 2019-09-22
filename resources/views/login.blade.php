@@ -33,7 +33,6 @@
         <div class="alert alert-danger">
             <ul>
                 <li>{{ Session::get('error') }}</li>
-                <li>{{ Session::get('pwd') }}</li>
             </ul>
         </div>
     @endif

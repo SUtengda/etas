@@ -211,7 +211,6 @@
                         this.clients_data.push(...data);
                     })
                     .catch(function (error) {
-                        console.log(error);
                     })
             },
 
@@ -222,7 +221,6 @@
                         this.message('success','添加或修改成功!');
                     })
                     .catch( (error)=> {
-                        console.log({error,client});
                         this.$message.error('出错了。。。');
                     });
             },
@@ -233,7 +231,6 @@
                         this.message('success','删除成功!');
                     })
                     .catch((error)=>{
-                        console.log(error);
                     });
                 },
             handleDelete(index, row) {
@@ -258,7 +255,6 @@
                 this.client = {PAR_UID : store.partnerID};
             },
             handleEdit(index, row) {
-                console.table(index, row);
                 this.dialogTitle = "修改客户信息";
                 row.CLI_要求EROI = row.CLI_要求EROI !== 0;
                 this.showDialog();

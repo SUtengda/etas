@@ -43,7 +43,6 @@
                     })
                     .catch(function (error) {
                         // handle error
-                        console.log(error);
                     })
 
             },

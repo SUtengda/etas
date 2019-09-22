@@ -102,7 +102,6 @@
                     })
                     .catch(function (error) {
                         // handle error
-                        console.log(error);
                     })
                     .finally(function () {
                         // always executed
@@ -125,7 +124,6 @@
                         this.message('success','添加成功!');
                     })
                     .catch( (error)=> {
-                        console.log(error);
                     });
             },
             updatePartner(partner){
@@ -135,7 +133,6 @@
                         this.message('success','修改成功!');
                     })
                     .catch(error=> {
-                        console.log(error);
                     });
             },
             postOrUpdatePartner(partner){
@@ -159,7 +156,6 @@
                 };
             },
             handleEdit(index, row) {
-                console.table(index, row);
                 this.dialogTitle = "修改合作方信息";
                 this.showDialog();
                 this.partner = {...row};
@@ -175,8 +171,6 @@
                 }).catch(() => {
                     this.message('info','已取消删除')
                 });
-
-                console.table(index, row);
             },
             message(type,message){
                 this.$message({

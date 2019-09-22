@@ -173,7 +173,6 @@
                         this.message('success','添加或修改成功!');
                     })
                     .catch( (error)=> {
-                        console.log(error);
                         this.$message.error('出错了。。。');
                     });
             },
@@ -188,7 +187,6 @@
                 this.$refs.vatDialog.dialogFormShow=true;
                 this.vats = {...row.vats[0]};
                 this.clientId=row.CLI_UID;
-                console.log({index, row});
             },
             handleDelete(index, row) {
                 this.$confirm('确认删除该客户?', '提示', {
@@ -201,7 +199,6 @@
                 }).catch(() => {
                     this.message('info','已取消删除')
                 });
-                console.log({index, row});
             },
             pipeDate(row, column, cellValue, index){
                 if(!cellValue) {

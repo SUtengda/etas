@@ -3555,9 +3555,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this.clients_data = [];
 
         (_this$clients_data = _this.clients_data).push.apply(_this$clients_data, _toConsumableArray(data));
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     postOrUpdateClient: function postOrUpdateClient(client) {
       var _this2 = this;
@@ -3567,11 +3565,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         _this2.message('success', '添加或修改成功!');
       })["catch"](function (error) {
-        console.log({
-          error: error,
-          client: client
-        });
-
         _this2.$message.error('出错了。。。');
       });
     },
@@ -3582,9 +3575,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this3.getClients(_js_store__WEBPACK_IMPORTED_MODULE_0__["store"].partnerID);
 
         _this3.message('success', '删除成功!');
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     handleDelete: function handleDelete(index, row) {
       var _this4 = this;
@@ -3611,7 +3602,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       };
     },
     handleEdit: function handleEdit(index, row) {
-      console.table(index, row);
       this.dialogTitle = "修改客户信息";
       row.CLI_要求EROI = row.CLI_要求EROI !== 0;
       this.showDialog();
@@ -3916,8 +3906,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         _this2.message('success', '添加或修改成功!');
       })["catch"](function (error) {
-        console.log(error);
-
         _this2.$message.error('出错了。。。');
       });
     },
@@ -3934,10 +3922,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.$refs.vatDialog.dialogFormShow = true;
       this.vats = _objectSpread({}, row.vats[0]);
       this.clientId = row.CLI_UID;
-      console.log({
-        index: index,
-        row: row
-      });
     },
     handleDelete: function handleDelete(index, row) {
       var _this4 = this;
@@ -3951,10 +3935,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         _this4.deleteVat(row.vats[0].VAT_UID);
       })["catch"](function () {
         _this4.message('info', '已取消删除');
-      });
-      console.log({
-        index: index,
-        row: row
       });
     },
     pipeDate: function pipeDate(row, column, cellValue, index) {
@@ -4257,9 +4237,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
             label: item.PAR_partner
           };
         });
-      })["catch"](function (error) {
-        // handle error
-        console.log(error);
+      })["catch"](function (error) {// handle error
       });
     }
   }
@@ -4533,7 +4511,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           _this.dialogFormClose();
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
@@ -4627,9 +4604,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.resetPwdForm.newpwd = '';
         _this2.resetPwdForm.renewpwd = '';
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     submitForm: function submitForm(formName) {
       var _this3 = this;
@@ -4638,7 +4613,6 @@ __webpack_require__.r(__webpack_exports__);
         if (valid) {
           _this3.resetPwd();
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
@@ -4780,9 +4754,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
         _this.part_data = [];
 
         (_this$part_data = _this.part_data).push.apply(_this$part_data, _toConsumableArray(data));
-      })["catch"](function (error) {
-        // handle error
-        console.log(error);
+      })["catch"](function (error) {// handle error
       })["finally"](function () {// always executed
       });
     },
@@ -4804,9 +4776,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
         _this3.getPartners();
 
         _this3.message('success', '添加成功!');
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     updatePartner: function updatePartner(partner) {
       var _this4 = this;
@@ -4815,9 +4785,7 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
         _this4.getPartners();
 
         _this4.message('success', '修改成功!');
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     postOrUpdatePartner: function postOrUpdatePartner(partner) {
       if (this.dialogTitle === '添加合作方') this.postNewPartner(partner);else this.updatePartner(partner);
@@ -4839,7 +4807,6 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
       };
     },
     handleEdit: function handleEdit(index, row) {
-      console.table(index, row);
       this.dialogTitle = "修改合作方信息";
       this.showDialog();
       this.partner = _objectSpread({}, row);
@@ -4857,7 +4824,6 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
       })["catch"](function () {
         _this5.message('info', '已取消删除');
       });
-      console.table(index, row);
     },
     message: function message(type, _message) {
       this.$message({
@@ -5116,12 +5082,8 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    handleOpen: function handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose: function handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+    handleOpen: function handleOpen(key, keyPath) {},
+    handleClose: function handleClose(key, keyPath) {},
     handleSelect: function handleSelect(key, keyPath) {
       this.$router.push({
         name: key
